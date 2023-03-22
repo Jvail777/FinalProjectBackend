@@ -15,7 +15,7 @@ leaderboardRoutes.get("/", async (req: Request, res: Response) => {
     try {
         const client = await getClient();
         const results = await client
-          .db()
+          .db("backend")
           .collection<Leaderboard>("backend")
           .find(mongoQuery)
           .toArray();
