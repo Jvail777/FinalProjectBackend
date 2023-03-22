@@ -1,5 +1,5 @@
 import express, { Application } from 'express';
-import * as functions from "firebase-functions";
+import * as functions from 'firebase-functions';
 
 const app:Application = express();
 
