@@ -4,19 +4,19 @@ import Leaderboard from "../models/Leaderboard";
 export const leaderboardRoutes = express.Router();
 
 leaderboardRoutes.get("/", async (req: Request, res: Response) => {
-    const to = req.query.to as string;
+    const name = req.query.name as string;
 
     const mongoQuery: any = {};
 
-    if (to) {
-        mongoQuery.to = to;
+    if (name) {
+        mongoQuery.name = name;
     }
 
     try {
         const client = await getClient();
         const results = await client
           .db()
-          .collection<Leaderboard>("leaderboard")
+          .collection<Leaderboard>("backend")
           .find(mongoQuery)
           .toArray();
     
