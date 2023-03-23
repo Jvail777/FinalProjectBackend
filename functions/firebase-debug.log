@@ -211,18 +211,3 @@ Issues? Report them at https://github.com/firebase/firebase-tools/issues and att
 [debug] [2023-03-23T01:28:05.692Z] shutdown requested via /__/quitquitquit
 
 [info] +  functions: Loaded functions definitions from source: api. {"metadata":{"emulator":{"name":"functions"},"message":"Loaded functions definitions from source: api."}}
-[debug] [2023-03-23T01:28:05.705Z] [worker-pool] Shutting down IDLE worker (us-central1-api) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] Shutting down IDLE worker (us-central1-api)"}}
-[debug] [2023-03-23T01:28:05.706Z] [worker-us-central1-api-00325133-f746-4a4d-87aa-cb16bfb01d60]: FINISHING {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"[worker-us-central1-api-00325133-f746-4a4d-87aa-cb16bfb01d60]: FINISHING"}}
-[debug] [2023-03-23T01:28:05.715Z] [worker-us-central1-api-00325133-f746-4a4d-87aa-cb16bfb01d60]: exited {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"[worker-us-central1-api-00325133-f746-4a4d-87aa-cb16bfb01d60]: exited"}}
-[debug] [2023-03-23T01:28:05.716Z] [worker-us-central1-api-00325133-f746-4a4d-87aa-cb16bfb01d60]: FINISHED {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"[worker-us-central1-api-00325133-f746-4a4d-87aa-cb16bfb01d60]: FINISHED"}}
-[debug] [2023-03-23T01:28:11.127Z] Received signal SIGINT (Ctrl-C) 1
-[info]  
-[info] i  emulators: Received SIGINT (Ctrl-C) for the first time. Starting a clean shutdown. 
-[info] i  emulators: Please wait for a clean shutdown or send the SIGINT (Ctrl-C) signal again to stop right now. 
-[info] i  emulators: Shutting down emulators. {"metadata":{"emulator":{"name":"hub"},"message":"Shutting down emulators."}}
-[info] i  ui: Stopping Emulator UI {"metadata":{"emulator":{"name":"ui"},"message":"Stopping Emulator UI"}}
-[warn] !  Emulator UI has exited upon receiving signal: SIGINT 
-[info] i  functions: Stopping Functions Emulator {"metadata":{"emulator":{"name":"functions"},"message":"Stopping Functions Emulator"}}
-[info] i  eventarc: Stopping Eventarc Emulator {"metadata":{"emulator":{"name":"eventarc"},"message":"Stopping Eventarc Emulator"}}
-[info] i  hub: Stopping emulator hub {"metadata":{"emulator":{"name":"hub"},"message":"Stopping emulator hub"}}
-[info] i  logging: Stopping Logging Emulator {"metadata":{"emulator":{"name":"logging"},"message":"Stopping Logging Emulator"}}
