@@ -30,6 +30,30 @@ playerRoutes.get("/", async (req: Request, res: Response) => {
   }
 });
 
+//get leaderboard
+playerRoutes.get("/leaderboard", async (req: Request, res: Response) => {
+  const difficulty = req.query.difficulty as string;
+
+  const mongoQuery: any = {};
+
+  if(difficulty){
+    mongoQuery.difficulty = difficulty;
+  }
+
+  try{
+    const client = await getClient();
+    const results = await client
+    .db("backend")
+    .collection<Leaderboard>("backend")
+    .find(mongoQuery)
+    .toArray();
+
+    return res.status(200).json(results);
+  } catch (error) {
+    return res.status(500).send(error)
+  }
+})
+
 //get individual player
 playerRoutes.get("/:id", async (req: Request, res: Response) => {
   const id = req.params.id;
@@ -53,13 +77,13 @@ playerRoutes.get("/:id", async (req: Request, res: Response) => {
 
 //add a player
 playerRoutes.post("/", async (req:Request, res:Response) => {
-  // const newPlayer = req.body as Player;
+  const newPlayer = req.body as Player;
 
-  const newPlayer = {
-      name: req.body.name,
-      score: 0,
-      difficulty: "easy"
-  }
+  // const newPlayer = {
+  //     name: req.body.name,
+  //     score: 0,
+  //     difficulty: "easy"
+  // }
   
   try {
       const client = await getClient();
