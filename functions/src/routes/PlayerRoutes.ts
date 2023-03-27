@@ -20,7 +20,7 @@ playerRoutes.get("/", async (req: Request, res: Response) => {
     const client = await getClient();
     const results = await client
       .db("backend")
-      .collection<Leaderboard>("backend")
+      .collection<Player>("backend")
       .find(mongoQuery)
       .toArray();
 
@@ -30,29 +30,6 @@ playerRoutes.get("/", async (req: Request, res: Response) => {
   }
 });
 
-//get leaderboard
-playerRoutes.get("/leaderboard", async (req: Request, res: Response) => {
-  const difficulty = req.query.difficulty as string;
-
-  const mongoQuery: any = {};
-
-  if(difficulty){
-    mongoQuery.difficulty = difficulty;
-  }
-
-  try{
-    const client = await getClient();
-    const results = await client
-    .db("backend")
-    .collection<Leaderboard>("backend")
-    .find(mongoQuery)
-    .toArray();
-
-    return res.status(200).json(results);
-  } catch (error) {
-    return res.status(500).send(error)
-  }
-})
 
 //get individual player
 playerRoutes.get("/:id", async (req: Request, res: Response) => {
@@ -102,14 +79,14 @@ playerRoutes.post("/", async (req:Request, res:Response) => {
 playerRoutes.put("/:id", async (req:Request, res:Response) => {
   const id = req.params.id;
   const player = req.body as Player;
-  delete player._id;
+  
 
   try{
       const client = await getClient();
-      const result = await client.db("backend").collection<Player>("backend").replaceOne({_id: new ObjectId(id)}, player)
+      const result = await client.db("backend").collection<Player>("backend").replaceOne({player: new ObjectId(id)}, player)
 
       if(result.modifiedCount === 0){
-          return res.status(404).send("Not found dude");
+          return res.status(404).send("Not found");
       } else{
           player._id = new ObjectId(id);
           player.score = (req.body.score)
