@@ -80,12 +80,14 @@ playerRoutes.put("/:id", async (req:Request, res:Response) => {
   // const id = req.params.id;
   const player = req.body as Player;
   // delete player._id;
-
+  const category = player.games[0].category;
+  const difficulty = player.games[0].difficulty;
+  const score = player.games[0].score;
   try{
       const client = await getClient();
-      const result = await client.db("backend").collection<Player>("backend").updateOne({_id: new ObjectId(req.params.id)}, {$push: {games: {"category": req.body.games.category, "difficulty": req.body.games.difficulty, "score": req.body.games.score}}})
+      const result = await client.db("backend").collection<Player>("backend").updateOne({_id: new ObjectId(req.params.id)}, {$push: {games: {"category": category, "difficulty": difficulty, "score": score}}})
       // const result = await client.db("backend").collection<Player>("backend").updateOne({_id: new ObjectId(id)}, player)
-    console.log(result)
+    console.log(player.games)
       if(result.modifiedCount === 0){
           return res.status(404).send("Not found dude");
       } else{
