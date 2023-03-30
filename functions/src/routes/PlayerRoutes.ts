@@ -77,25 +77,27 @@ playerRoutes.post("/", async (req:Request, res:Response) => {
 
 //update player by id *****************NEEDS WORK*********************
 playerRoutes.put("/:id", async (req:Request, res:Response) => {
-  const id = req.params.id;
+  // const id = req.params.id;
   const player = req.body as Player;
-  
+  // delete player._id;
 
   try{
       const client = await getClient();
-      const result = await client.db("backend").collection<Player>("backend").replaceOne({player: new ObjectId(id)}, player)
-
+      const result = await client.db("backend").collection<Player>("backend").updateOne({_id: new ObjectId(req.params.id)}, {$push: {games: {"category": req.body.games.category, "difficulty": req.body.games.difficulty, "score": req.body.games.score}}})
+      // const result = await client.db("backend").collection<Player>("backend").updateOne({_id: new ObjectId(id)}, player)
+    console.log(result)
       if(result.modifiedCount === 0){
-          return res.status(404).send("Not found");
+          return res.status(404).send("Not found dude");
       } else{
-          player._id = new ObjectId(id);
-          player.score = (req.body.score)
+          // player._id = new ObjectId(id);
+          player.name = player.name;
+          player.id = player.id;
+          player.games = player.games
           return res.json(player);
       }
   } catch (error) {
-      return res.status(500).send(error);
-  }
-});
+      return res.status(500).json(error);
+}});
 
 //delete player by id
 playerRoutes.delete("/:id", async (req:Request, res:Response) => {
