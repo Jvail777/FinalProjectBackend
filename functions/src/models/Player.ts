@@ -1,14 +1,9 @@
 import {ObjectId} from "mongodb";
+import { Game } from "./Game";
 
 export default interface Player {
     _id?: ObjectId,
-    id?: string,
+    googleId?: string,
     name: string,
-    games?: [
-        {
-            category: string,
-            difficulty: string,
-            score: number
-        }
-    ]
+    games: Game[]
 }
