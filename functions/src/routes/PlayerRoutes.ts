@@ -21,7 +21,7 @@ playerRoutes.get("/", async (req: Request, res: Response) => {
     const client = await getClient();
     const results = await client
       .db("backend")
-      .collection<Player>("backend")
+      .collection<Player>("Player")
       .find(mongoQuery)
       .toArray();
 
@@ -40,7 +40,7 @@ playerRoutes.get("/", async (req: Request, res: Response) => {
 //     const client = await getClient();
 //     const result = await client
 //       .db("backend")
-//       .collection<Leaderboard>("backend")
+//       .collection<Player>("Player")
 //       .findOne({ _id: new ObjectId(id) });
 
 //     if (!result) {
@@ -61,7 +61,7 @@ playerRoutes.get("/:id", async (req: Request, res: Response) => {
     const client = await getClient();
     const result = await client
       .db("backend")
-      .collection<Player>("backend")
+      .collection<Player>("Player")
       .findOne({ id: player.id });
 
     if (!result) {
@@ -77,17 +77,11 @@ playerRoutes.get("/:id", async (req: Request, res: Response) => {
 //add a player
 playerRoutes.post("/", async (req:Request, res:Response) => {
   const newPlayer = req.body as Player;
-
-  // const newPlayer = {
-  //     name: req.body.name,
-  //     score: 0,
-  //     difficulty: "easy"
-  // }
   
   try {
       const client = await getClient();
 
-      await client.db("backend").collection<Player>("backend").insertOne(newPlayer);
+      await client.db("backend").collection<Player>("Player").insertOne(newPlayer);
 
       return res.status(201).json(newPlayer);
   }
@@ -97,7 +91,7 @@ playerRoutes.post("/", async (req:Request, res:Response) => {
 });
 
 
-//update player by id *****************NEEDS WORK*********************
+//update player by id
 playerRoutes.put("/:id/:name", async (req:Request, res:Response) => {
   const game = req.body as Game;
   
@@ -105,15 +99,15 @@ playerRoutes.put("/:id/:name", async (req:Request, res:Response) => {
   try{
       const client = await getClient();
       //check to see if the player already exists in database
-      const playerResult = await client.db("backend").collection<Player>("backend").findOne({googleId: req.params.id})
+      const playerResult = await client.db("backend").collection<Player>("Player").findOne({googleId: req.params.id})
       //if they exist, add the game from request to their array of 
       if(!playerResult){
-        const newPlayerResult = await client.db("backend").collection<Player>("backend").insertOne({googleId: req.params.id, name: req.params.name, games: [game]})
+        const newPlayerResult = await client.db("backend").collection<Player>("Player").insertOne({googleId: req.params.id, name: req.params.name, games: [game]})
         return res.status(204).json(newPlayerResult)
       }
       //if they don't exist, add a new player and set their game from the request
       else{
-        const updatePlayerResult = await client.db("backend").collection<Player>("backend").updateOne({googleId: req.params.id}, {$push: {games: {"category": game.category, "difficulty": game.difficulty, "score": game.score}}})
+        const updatePlayerResult = await client.db("backend").collection<Player>("Player").updateOne({googleId: req.params.id}, {$push: {games: {"category": game.category, "difficulty": game.difficulty, "score": game.score}}})
         return res.status(204).json(updatePlayerResult)
       }
       
@@ -127,7 +121,7 @@ playerRoutes.delete("/:id", async (req:Request, res:Response) => {
   const id = req.params.id;
   try {
     const client = await getClient();
-    const result = await client.db("backend").collection<Player>("backend").deleteOne({_id: new ObjectId(id)});
+    const result = await client.db("backend").collection<Player>("Player").deleteOne({_id: new ObjectId(id)});
     if (result.deletedCount === 0) {
       return res.status(404).json({message: "Not Found"});
     } else {
