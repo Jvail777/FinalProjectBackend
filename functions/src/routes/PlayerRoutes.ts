@@ -2,7 +2,7 @@ import express, { Request, Response } from "express";
 import { ObjectId } from "mongodb";
 import { getClient } from "../db";
 import Player from "../models/Player";
-import Leaderboard from "../models/Player";
+
 
 export const playerRoutes = express.Router();
 
@@ -20,7 +20,7 @@ playerRoutes.get("/", async (req: Request, res: Response) => {
     const client = await getClient();
     const results = await client
       .db("backend")
-      .collection<Player>("backend")
+      .collection<Player>("Player")
       .find(mongoQuery)
       .toArray();
 
@@ -39,7 +39,7 @@ playerRoutes.get("/:id", async (req: Request, res: Response) => {
     const client = await getClient();
     const result = await client
       .db("backend")
-      .collection<Leaderboard>("backend")
+      .collection<Player>("Player")
       .findOne({ _id: new ObjectId(id) });
 
     if (!result) {
@@ -56,16 +56,11 @@ playerRoutes.get("/:id", async (req: Request, res: Response) => {
 playerRoutes.post("/", async (req:Request, res:Response) => {
   const newPlayer = req.body as Player;
 
-  // const newPlayer = {
-  //     name: req.body.name,
-  //     score: 0,
-  //     difficulty: "easy"
-  // }
-  
+
   try {
       const client = await getClient();
 
-      await client.db("backend").collection<Player>("backend").insertOne(newPlayer);
+      await client.db("backend").collection<Player>("Player").insertOne(newPlayer);
 
       return res.status(201).json(newPlayer);
   }
@@ -83,7 +78,7 @@ playerRoutes.put("/:id", async (req:Request, res:Response) => {
 
   try{
       const client = await getClient();
-      const result = await client.db("backend").collection<Player>("backend").updateOne({_id: new ObjectId(req.params.id)}, {$push: {games: {"category": req.body.games.category, "difficulty": req.body.games.difficulty, "score": req.body.games.score}}})
+      const result = await client.db("backend").collection<Player>("Player").updateOne({_id: new ObjectId(req.params.id)}, {$push: {games: {"category": req.body.games.category, "difficulty": req.body.games.difficulty, "score": req.body.games.score}}})
       // const result = await client.db("backend").collection<Player>("backend").updateOne({_id: new ObjectId(id)}, player)
     console.log(result)
       if(result.modifiedCount === 0){
@@ -104,7 +99,7 @@ playerRoutes.delete("/:id", async (req:Request, res:Response) => {
   const id = req.params.id;
   try {
     const client = await getClient();
-    const result = await client.db("backend").collection<Player>("backend").deleteOne({_id: new ObjectId(id)});
+    const result = await client.db("backend").collection<Player>("Player").deleteOne({_id: new ObjectId(id)});
     if (result.deletedCount === 0) {
       return res.status(404).json({message: "Not Found"});
     } else {

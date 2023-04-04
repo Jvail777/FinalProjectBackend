@@ -1,6 +1,6 @@
 import express, { Request, Response } from "express";
 import { getClient } from "../db";
-import Leaderboard from "../models/Player";
+import Player from "../models/Player";
 
 export const leaderboardrRoutes = express.Router();
 
@@ -18,7 +18,7 @@ leaderboardrRoutes.get("/", async (req: Request, res: Response) => {
       const client = await getClient();
       const results = await client
       .db("backend")
-      .collection<Leaderboard>("backend")
+      .collection<Player>("Player")
       .find(mongoQuery)
       .toArray();
   
