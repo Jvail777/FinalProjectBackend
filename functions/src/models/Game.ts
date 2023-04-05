@@ -1,5 +1,5 @@
 export interface Game {
-  category: string;
-  difficulty: string;
-  score: number;
+    category: string,
+            difficulty: string,
+            score: number
 }
